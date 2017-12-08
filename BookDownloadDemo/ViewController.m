@@ -20,7 +20,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
     
-    for (NSInteger i = 0; i < 1; i ++) {
+    for (NSInteger i = 0; i < 10; i ++) {
         [[BookDownload sharedInstance] downloadBook:[NSString stringWithFormat:@"book_%ld", (long)i]];
     }
     

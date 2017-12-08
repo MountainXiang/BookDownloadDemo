@@ -71,7 +71,7 @@ static NSString * const MXRBASE_API_URL = @"https://bs-api.mxrcorp.cn";
 //#endif
 //#pragma clang diagnostic pop
     
-//    4dBookCity/5.8.2 (iPhone; iOS 11.1.2; Scale/3.00)
+    NSString *userAgent = @"4dBookCity/5.8.1 (iPhone; iOS 11.1.2; Scale/3.00)";
     
     if (![userAgent canBeConvertedToEncoding:NSASCIIStringEncoding]) {
         NSMutableString *mutableUserAgent = [userAgent mutableCopy];
