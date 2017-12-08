@@ -8,6 +8,7 @@
 
 #import "DownloadBaseOperation.h"
 #import "DownloadOperationQueue.h"
+#import "DownloadNetworkManager.h"
 
 @interface DownloadBaseOperation()
 
@@ -26,7 +27,7 @@
 
 - (void)start {
     [super start];
-    NSLog(@"====%s====%@====%d====%lu====%@====%d", __FUNCTION__,_operationID, self.asynchronous, (unsigned long)[DownloadOperationQueue sharedQueue].operations.count, [NSThread currentThread], [NSThread isMainThread]);
+//    NSLog(@"====%s====%@====%d====%lu====%@====%d", __FUNCTION__,_operationID, self.asynchronous, (unsigned long)[DownloadOperationQueue sharedQueue].operations.count, [NSThread currentThread], [NSThread isMainThread]);
     
     @autoreleasepool {
         [self startDownload];
@@ -36,16 +37,18 @@
 // 当把自定义的操作添加到操作队列中，或者直接调用操作的start方法后，都会自动来执行main 方法中的内容
 - (void)main {
     [super main];
-    NSLog(@"====%s====%@====%d====%lu====%@====%d", __FUNCTION__,_operationID, self.asynchronous, (unsigned long)[DownloadOperationQueue sharedQueue].operations.count, [NSThread currentThread], [NSThread isMainThread]);
+//    NSLog(@"====%s====%@====%d====%lu====%@====%d", __FUNCTION__,_operationID, self.asynchronous, (unsigned long)[DownloadOperationQueue sharedQueue].operations.count, [NSThread currentThread], [NSThread isMainThread]);
 
-    dispatch_queue_t queue = dispatch_queue_create("Log_Finish_Queue", NULL);
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), queue, ^{
-        NSLog(@"====finish====%@====%d====%lu====%@====%d", _operationID, self.asynchronous, (unsigned long)[DownloadOperationQueue sharedQueue].operations.count, [NSThread currentThread], [NSThread isMainThread]);
-    });
+//    dispatch_queue_t queue = dispatch_queue_create("Log_Finish_Queue", NULL);
+//    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), queue, ^{
+//        NSLog(@"====finish====%@====%d====%lu====%@====%d", _operationID, self.asynchronous, (unsigned long)[DownloadOperationQueue sharedQueue].operations.count, [NSThread currentThread], [NSThread isMainThread]);
+//    });
+    
+    [DownloadNetworkManager test];
 }
 
 - (void)dealloc {
-    NSLog(@"====%s====", __FUNCTION__);
+//    NSLog(@"====%s====", __FUNCTION__);
 }
 
 #pragma mark - Private Method

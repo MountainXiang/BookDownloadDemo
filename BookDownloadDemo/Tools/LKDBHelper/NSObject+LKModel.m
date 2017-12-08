@@ -674,16 +674,16 @@ static char LKModelBase_Key_Inserting;
 #pragma mark - your can overwrite
 - (void)setNilValueForKey:(NSString *)key
 {
-    DLOG(@"nil 这种设置到了 int 等基础类型中");
+    DLog(@"nil 这种设置到了 int 等基础类型中");
 }
 - (id)valueForUndefinedKey:(NSString *)key
 {
-    DLOG(@"你有get方法没实现，key:%@", key);
+    DLog(@"你有get方法没实现，key:%@", key);
     return nil;
 }
 - (void)setValue:(id)value forUndefinedKey:(NSString *)key
 {
-    DLOG(@"你有set方法没实现，key:%@", key);
+    DLog(@"你有set方法没实现，key:%@", key);
 }
 
 #pragma mark -

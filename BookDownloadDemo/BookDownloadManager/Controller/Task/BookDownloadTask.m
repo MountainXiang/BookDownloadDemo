@@ -30,11 +30,11 @@
 }
 
 - (void)beginDownload {
-    [[DownloadOperationQueue sharedQueue] addOperationWithBlock:^{
-        NSLog(@"====beginDownload====%@", _taskID);
-    }];
+//    [[DownloadOperationQueue sharedQueue] addOperationWithBlock:^{
+//        NSLog(@"====beginDownload====%@", _taskID);
+//    }];
     
-//    [[DownloadOperationQueue sharedQueue] addOperation:self.operation];
+    [[DownloadOperationQueue sharedQueue] addOperation:self.operation];
 }
 
 #pragma mark - Private Method

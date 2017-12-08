@@ -109,7 +109,7 @@
         return FMDBReturnAutoreleased([dict copy]);
     }
     else {
-        DLOG(@"Warning: There seem to be no columns in this set.");
+        NSLog(@"Warning: There seem to be no columns in this set.");
     }
     
     return nil;
@@ -137,7 +137,7 @@
         return dict;
     }
     else {
-        DLOG(@"Warning: There seem to be no columns in this set.");
+        NSLog(@"Warning: There seem to be no columns in this set.");
     }
     
     return nil;
@@ -151,22 +151,22 @@
     int rc = sqlite3_step([_statement statement]);
     
     if (SQLITE_BUSY == rc || SQLITE_LOCKED == rc) {
-        DLOG(@"%s:%d Database busy (%@)", __FUNCTION__, __LINE__, [_parentDB databasePath]);
-        DLOG(@"Database busy");
+        NSLog(@"%s:%d Database busy (%@)", __FUNCTION__, __LINE__, [_parentDB databasePath]);
+        NSLog(@"Database busy");
     }
     else if (SQLITE_DONE == rc || SQLITE_ROW == rc) {
         // all is well, let's return.
     }
     else if (SQLITE_ERROR == rc) {
-        DLOG(@"Error calling sqlite3_step (%d: %s) rs", rc, sqlite3_errmsg([_parentDB sqliteHandle]));
+        NSLog(@"Error calling sqlite3_step (%d: %s) rs", rc, sqlite3_errmsg([_parentDB sqliteHandle]));
     }
     else if (SQLITE_MISUSE == rc) {
         // uh oh.
-        DLOG(@"Error calling sqlite3_step (%d: %s) rs", rc, sqlite3_errmsg([_parentDB sqliteHandle]));
+        NSLog(@"Error calling sqlite3_step (%d: %s) rs", rc, sqlite3_errmsg([_parentDB sqliteHandle]));
     }
     else {
         // wtf?
-        DLOG(@"Unknown error calling sqlite3_step (%d: %s) rs", rc, sqlite3_errmsg([_parentDB sqliteHandle]));
+        NSLog(@"Unknown error calling sqlite3_step (%d: %s) rs", rc, sqlite3_errmsg([_parentDB sqliteHandle]));
     }
     
     
@@ -190,7 +190,7 @@
         return [n intValue];
     }
     
-    DLOG(@"Warning: I could not find the column named '%@'.", columnName);
+    NSLog(@"Warning: I could not find the column named '%@'.", columnName);
     
     return -1;
 }

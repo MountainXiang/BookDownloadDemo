@@ -28,6 +28,9 @@
 		AA82F7901FD91E8600FC2ECC /* FMDatabasePool.m in Sources */ = {isa = PBXBuildFile; fileRef = AA82F78A1FD91E8600FC2ECC /* FMDatabasePool.m */; };
 		AA82F7931FD9231F00FC2ECC /* BookDataBaseManager.m in Sources */ = {isa = PBXBuildFile; fileRef = AA82F7921FD9231F00FC2ECC /* BookDataBaseManager.m */; };
 		AA8D91721FDA246100DC562D /* NSString+NSDate.m in Sources */ = {isa = PBXBuildFile; fileRef = AA8D91711FDA246100DC562D /* NSString+NSDate.m */; };
+		AA8D91801FDA672700DC562D /* MTXFileModel.m in Sources */ = {isa = PBXBuildFile; fileRef = AA8D917F1FDA672700DC562D /* MTXFileModel.m */; };
+		AA8D91831FDA726C00DC562D /* MTXFileManager.m in Sources */ = {isa = PBXBuildFile; fileRef = AA8D91821FDA726C00DC562D /* MTXFileManager.m */; };
+		AA8D91861FDA7BDE00DC562D /* MTXDownloadManager.m in Sources */ = {isa = PBXBuildFile; fileRef = AA8D91851FDA7BDE00DC562D /* MTXDownloadManager.m */; };
 		AA9391491FD8E85900DDDBFC /* NetworkResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = AA9391481FD8E85900DDDBFC /* NetworkResponse.m */; };
 		AA9745F61FD69D2900A08552 /* BookDownloadTask.m in Sources */ = {isa = PBXBuildFile; fileRef = AA9745F51FD69D2900A08552 /* BookDownloadTask.m */; };
 		AA9745F91FD69D8A00A08552 /* DownloadBaseOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = AA9745F81FD69D8A00A08552 /* DownloadBaseOperation.m */; };
@@ -85,6 +88,12 @@
 		AA82F7921FD9231F00FC2ECC /* BookDataBaseManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BookDataBaseManager.m; sourceTree = "<group>"; };
 		AA8D91701FDA246100DC562D /* NSString+NSDate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSString+NSDate.h"; sourceTree = "<group>"; };
 		AA8D91711FDA246100DC562D /* NSString+NSDate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSString+NSDate.m"; sourceTree = "<group>"; };
+		AA8D917E1FDA672700DC562D /* MTXFileModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MTXFileModel.h; sourceTree = "<group>"; };
+		AA8D917F1FDA672700DC562D /* MTXFileModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MTXFileModel.m; sourceTree = "<group>"; };
+		AA8D91811FDA726C00DC562D /* MTXFileManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MTXFileManager.h; sourceTree = "<group>"; };
+		AA8D91821FDA726C00DC562D /* MTXFileManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MTXFileManager.m; sourceTree = "<group>"; };
+		AA8D91841FDA7BDE00DC562D /* MTXDownloadManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MTXDownloadManager.h; sourceTree = "<group>"; };
+		AA8D91851FDA7BDE00DC562D /* MTXDownloadManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MTXDownloadManager.m; sourceTree = "<group>"; };
 		AA9391471FD8E85900DDDBFC /* NetworkResponse.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NetworkResponse.h; sourceTree = "<group>"; };
 		AA9391481FD8E85900DDDBFC /* NetworkResponse.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NetworkResponse.m; sourceTree = "<group>"; };
 		AA9745F41FD69D2900A08552 /* BookDownloadTask.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BookDownloadTask.h; sourceTree = "<group>"; };
@@ -306,13 +315,26 @@
 			path = Manager;
 			sourceTree = "<group>";
 		};
+		AA8D917D1FDA66B300DC562D /* MTXDownload */ = {
+			isa = PBXGroup;
+			children = (
+				AA8D917E1FDA672700DC562D /* MTXFileModel.h */,
+				AA8D917F1FDA672700DC562D /* MTXFileModel.m */,
+				AA8D91811FDA726C00DC562D /* MTXFileManager.h */,
+				AA8D91821FDA726C00DC562D /* MTXFileManager.m */,
+				AA8D91841FDA7BDE00DC562D /* MTXDownloadManager.h */,
+				AA8D91851FDA7BDE00DC562D /* MTXDownloadManager.m */,
+			);
+			path = MTXDownload;
+			sourceTree = "<group>";
+		};
 		AA999C641FD7C810003FD53A /* NetworkManager */ = {
 			isa = PBXGroup;
 			children = (
-				AA999C651FD7C88F003FD53A /* HTTPHeaderField.h */,
-				AA999C661FD7C88F003FD53A /* HTTPHeaderField.m */,
 				AA999C7F1FD7E7D3003FD53A /* NetworkManager.h */,
 				AA999C801FD7E7D3003FD53A /* NetworkManager.m */,
+				AA999C651FD7C88F003FD53A /* HTTPHeaderField.h */,
+				AA999C661FD7C88F003FD53A /* HTTPHeaderField.m */,
 				AA9391471FD8E85900DDDBFC /* NetworkResponse.h */,
 				AA9391481FD8E85900DDDBFC /* NetworkResponse.m */,
 			);
@@ -335,6 +357,7 @@
 		AA999C751FD7CEE8003FD53A /* Tools */ = {
 			isa = PBXGroup;
 			children = (
+				AA8D917D1FDA66B300DC562D /* MTXDownload */,
 				AA82F77E1FD91E7D00FC2ECC /* FMDB */,
 				AA82F76E1FD91E2B00FC2ECC /* LKDBHelper */,
 				AA999C681FD7CAD7003FD53A /* Base64 */,
@@ -475,12 +498,14 @@
 				AA999C671FD7C88F003FD53A /* HTTPHeaderField.m in Sources */,
 				AA999C701FD7CAD8003FD53A /* MXRBase64.mm in Sources */,
 				AA82DD5C1FC6C1910083C842 /* BookDownload.m in Sources */,
+				AA8D91861FDA7BDE00DC562D /* MTXDownloadManager.m in Sources */,
 				AA82F77B1FD91E4600FC2ECC /* LKDBHelper.m in Sources */,
 				AA82F78D1FD91E8600FC2ECC /* FMDatabase.m in Sources */,
 				AA82F78C1FD91E8600FC2ECC /* FMResultSet.m in Sources */,
 				AA999C811FD7E7D3003FD53A /* NetworkManager.m in Sources */,
 				AA82DD411FC6AF5D0083C842 /* ViewController.m in Sources */,
 				AA82F7901FD91E8600FC2ECC /* FMDatabasePool.m in Sources */,
+				AA8D91831FDA726C00DC562D /* MTXFileManager.m in Sources */,
 				AA9745F91FD69D8A00A08552 /* DownloadBaseOperation.m in Sources */,
 				AA82F76D1FD912C800FC2ECC /* BookDownloadInfo.m in Sources */,
 				AA82DD4C1FC6AF5D0083C842 /* main.m in Sources */,
@@ -491,6 +516,7 @@
 				AA82F77C1FD91E4600FC2ECC /* LKDBUtils.m in Sources */,
 				AA82F77A1FD91E4600FC2ECC /* NSObject+LKModel.m in Sources */,
 				AA999C5D1FD78944003FD53A /* DownloadOperationQueue.m in Sources */,
+				AA8D91801FDA672700DC562D /* MTXFileModel.m in Sources */,
 				AA82F78F1FD91E8600FC2ECC /* FMDatabaseAdditions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -30,7 +30,7 @@ static NSString * const previewPages = @"preViewPages";
                     
 //                    dispatch_async(dispatch_get_global_queue(0, 0), ^{//异步单条重复插入会造成数据丢失
 //                        [[BookDataBaseManager sharedManager] insertModelToDB:info callback:^(BOOL result) {
-//                            DLOG(@"====insert====%@====%ld", result ? @"success" : @"fail", (long)info.page);//无序
+//                            DLog(@"====insert====%@====%ld", result ? @"success" : @"fail", (long)info.page);//无序
 //                        }];
 //                    });
                 }
@@ -40,7 +40,7 @@ static NSString * const previewPages = @"preViewPages";
             
             //异步插入，不卡主线程，并且保证插入有序
             [[BookDataBaseManager sharedManager] insertArrayByAsyncToDB:resourceInfoArr completed:^(BOOL allInserted) {
-                DLOG(@"====allInserted====%@", allInserted ? @"success" : @"fail");
+                DLog(@"====allInserted====%@", allInserted ? @"success" : @"fail");
             }];
         }
     } else if ([key isEqualToString:previewPages]) {

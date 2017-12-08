@@ -10,6 +10,16 @@
 
 @interface DownloadNetworkManager : NSObject
 
+/**
+ 获取图书资源地址
+
+ @param bookGuid 唯一标识
+ @param success 返回
+ @param failure 失败
+ @return 请求任务
+ */
 + (NSURLSessionDataTask *)getBookDownloadInfoWithBookGuid:(NSString *)bookGuid success:(successBlock)success failure:(failureBlock)failure;
+
++ (void)test;
 
 @end

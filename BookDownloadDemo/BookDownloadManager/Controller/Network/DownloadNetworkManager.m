@@ -23,7 +23,7 @@ static NSString * const MXRBASE_API_URL = @"https://bs-api.mxrcorp.cn";
     NSString *URLString = ServiceURL_DOWNLOAD_FILELIST(bookGuid);
     return [[NetworkManager manager] requestWithType:RequestTypeGet URLString:URLString parameters:nil progress:^(NSProgress * _Nonnull progress) {
         //打印下下载进度
-        DLOG(@"====downloadProgress====%lf",1.0 * progress.completedUnitCount / progress.totalUnitCount);
+        DLog(@"====downloadProgress====%lf",1.0 * progress.completedUnitCount / progress.totalUnitCount);
     } success:^(NSURLSessionDataTask * _Nonnull task, id _Nullable data) {
         if (success) {//判空
             NetworkResponse *response = [[NetworkResponse alloc] initWithData:data];
@@ -35,7 +35,7 @@ static NSString * const MXRBASE_API_URL = @"https://bs-api.mxrcorp.cn";
                 info.createTime = [NSString currentTime];
                 info.updateTime = info.createTime;
                 [[BookDataBaseManager sharedManager] insertModelByAsyncToDB:info callback:^(BOOL result) {
-                    DLOG(@"====insert====%@", result ? @"success" : @"fail");
+                    DLog(@"====insert====%@", result ? @"success" : @"fail");
                 }];
             }
         }
@@ -46,6 +46,80 @@ static NSString * const MXRBASE_API_URL = @"https://bs-api.mxrcorp.cn";
         /*Printing description of error:
          Error Domain=NSURLErrorDomain Code=-1002 "unsupported URL" UserInfo={NSUnderlyingError=0x600000254c40 {Error Domain=kCFErrorDomainCFNetwork Code=-1002 "(null)"}, NSErrorFailingURLStringKey=//areditor/release/filelist/5D46BB7762E54116846B04ED6C9F15C8, NSErrorFailingURLKey=//areditor/release/filelist/5D46BB7762E54116846B04ED6C9F15C8, */
     }];
+}
+
++ (void)test {
+    NSString *downloadURL = @"http://books.mxrcorp.cn/5D46BB7762E54116846B04ED6C9F15C8/P1.zip";
+    NSTimeInterval timeoutInterval = 30;
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:downloadURL] cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:timeoutInterval];
+    request.HTTPMethod = @"GET";
+    
+//    NSString *userAgent;
+//#pragma clang diagnostic push
+//#pragma clang diagnostic ignored "-Wgnu"
+//#if TARGET_OS_IOS
+//    // User-Agent Header; see http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.43
+//    userAgent = [NSString stringWithFormat:@"%@/%@ (%@; iOS %@; Scale/%0.2f)", [[NSBundle mainBundle] infoDictionary][(__bridge NSString *)kCFBundleExecutableKey] ?: [[NSBundle mainBundle] infoDictionary][(__bridge NSString *)kCFBundleIdentifierKey], [[NSBundle mainBundle] infoDictionary][@"CFBundleShortVersionString"] ?: [[NSBundle mainBundle] infoDictionary][(__bridge NSString *)kCFBundleVersionKey], [[UIDevice currentDevice] model], [[UIDevice currentDevice] systemVersion], [[UIScreen mainScreen] scale]];
+//#elif TARGET_OS_WATCH
+//    // User-Agent Header; see http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.43
+//    userAgent = [NSString stringWithFormat:@"%@/%@ (%@; watchOS %@; Scale/%0.2f)", [[NSBundle mainBundle] infoDictionary][(__bridge NSString *)kCFBundleExecutableKey] ?: [[NSBundle mainBundle] infoDictionary][(__bridge NSString *)kCFBundleIdentifierKey], [[NSBundle mainBundle] infoDictionary][@"CFBundleShortVersionString"] ?: [[NSBundle mainBundle] infoDictionary][(__bridge NSString *)kCFBundleVersionKey], [[WKInterfaceDevice currentDevice] model], [[WKInterfaceDevice currentDevice] systemVersion], [[WKInterfaceDevice currentDevice] screenScale]];
+//#elif defined(__MAC_OS_X_VERSION_MIN_REQUIRED)
+//    userAgent = [NSString stringWithFormat:@"%@/%@ (Mac OS X %@)", [[NSBundle mainBundle] infoDictionary][(__bridge NSString *)kCFBundleExecutableKey] ?: [[NSBundle mainBundle] infoDictionary][(__bridge NSString *)kCFBundleIdentifierKey], [[NSBundle mainBundle] infoDictionary][@"CFBundleShortVersionString"] ?: [[NSBundle mainBundle] infoDictionary][(__bridge NSString *)kCFBundleVersionKey], [[NSProcessInfo processInfo] operatingSystemVersionString]];
+//
+//#else
+//    userAgent = @"";
+//#endif
+//#pragma clang diagnostic pop
+    
+//    4dBookCity/5.8.2 (iPhone; iOS 11.1.2; Scale/3.00)
+    
+    if (![userAgent canBeConvertedToEncoding:NSASCIIStringEncoding]) {
+        NSMutableString *mutableUserAgent = [userAgent mutableCopy];
+        if (CFStringTransform((__bridge CFMutableStringRef)(mutableUserAgent), NULL, (__bridge CFStringRef)@"Any-Latin; Latin-ASCII; [:^ASCII:] Remove", false)) {
+            userAgent = mutableUserAgent;
+        }
+    }
+    
+    [request setValue:userAgent forHTTPHeaderField:@"User-Agent"];
+    
+    unsigned long long fileSize = 0;
+    NSString *headerRange = [NSString stringWithFormat:@"bytes=%llu-", fileSize];
+    [request setValue:headerRange forHTTPHeaderField:@"Range"];
+    
+    // 判断之前是否下载过 如果有下载重新构造Header
+//    if ([fileManager fileExistsAtPath:tempFilePath]) {
+//        NSError *error = nil;
+//        fileSize = [[fileManager attributesOfItemAtPath:tempFilePath
+//                                                  error:&error]
+//                    fileSize];
+//        if (error) {
+//            DLOG(@"get %@ fileSize failed!\nError:%@", tempFilePath, error);
+//        }
+//        NSString *headerRange = [NSString stringWithFormat:@"bytes=%llu-", fileSize];
+//        [request setValue:headerRange forHTTPHeaderField:@"Range"];
+//    }
+    
+    /*--------Creating a Download Task--------*/
+    NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
+    AFURLSessionManager *manager = [[AFURLSessionManager alloc] initWithSessionConfiguration:configuration];
+    
+//    NSURL *URL = [NSURL URLWithString:@"http://example.com/download.zip"];
+//    NSURLRequest *request = [NSURLRequest requestWithURL:URL];
+    
+    NSURLSessionDownloadTask *downloadTask = [manager downloadTaskWithRequest:request progress:nil destination:^NSURL *(NSURL *targetPath, NSURLResponse *response) {
+        NSURL *documentsDirectoryURL = [[NSFileManager defaultManager] URLForDirectory:NSDocumentDirectory inDomain:NSUserDomainMask appropriateForURL:nil create:NO error:nil];
+        return [documentsDirectoryURL URLByAppendingPathComponent:[response suggestedFilename]];
+    } completionHandler:^(NSURLResponse *response, NSURL *filePath, NSError *error) {
+        if (error) {
+            DLog(@"Download Error:%@", error.localizedDescription);
+        } else {
+            DLog(@"DownLoad Success====filePath: %@", filePath);
+            
+            /*Download Error:The resource could not be loaded because the App Transport Security policy requires the use of a secure connection.*/
+        }
+    }];
+    [downloadTask resume];
+    /*--------Creating a Download Task--------*/
 }
 
 /*(lldb) po response.body
