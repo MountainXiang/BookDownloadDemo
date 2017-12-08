@@ -140,7 +140,6 @@
 		AA82DD301FC6AF5D0083C842 = {
 			isa = PBXGroup;
 			children = (
-				AA999C721FD7CC06003FD53A /* PrefixHeader.pch */,
 				AA82DD3B1FC6AF5D0083C842 /* BookDownloadDemo */,
 				AA82DD3A1FC6AF5D0083C842 /* Products */,
 				173AC6E611BB399582A48D4D /* Pods */,
@@ -163,6 +162,7 @@
 				AA999C751FD7CEE8003FD53A /* Tools */,
 				AA999C641FD7C810003FD53A /* NetworkManager */,
 				AA82DD571FC6BB170083C842 /* BookDownloadManager */,
+				AA999C721FD7CC06003FD53A /* PrefixHeader.pch */,
 				AA82DD3C1FC6AF5D0083C842 /* AppDelegate.h */,
 				AA82DD3D1FC6AF5D0083C842 /* AppDelegate.m */,
 				AA82DD3F1FC6AF5D0083C842 /* ViewController.h */,
@@ -572,7 +572,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 5U5763E89G;
-				GCC_PREFIX_HEADER = "$(SRCROOT)/PrefixHeader.pch";
+				GCC_PREFIX_HEADER = "$(SRCROOT)/BookDownloadDemo/PrefixHeader.pch";
 				INFOPLIST_FILE = BookDownloadDemo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.mtx.book.BookDownloadDemo;
@@ -588,7 +588,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 5U5763E89G;
-				GCC_PREFIX_HEADER = "$(SRCROOT)/PrefixHeader.pch";
+				GCC_PREFIX_HEADER = "$(SRCROOT)/BookDownloadDemo/PrefixHeader.pch";
 				INFOPLIST_FILE = BookDownloadDemo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.mtx.book.BookDownloadDemo;
