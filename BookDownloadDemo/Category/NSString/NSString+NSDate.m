@@ -31,12 +31,15 @@
 
 +(NSString *)getTodayTimeWithFormatter:(NSString *)dateFormat{
     NSCalendar *calendar = [NSCalendar currentCalendar];
-    NSDateComponents *components;
-    if (iOS8Later) {
-         components = [calendar components:(NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear) fromDate:[NSDate date]];
-    } else {
-        components = [calendar components:[self calendarUnitFlags] fromDate:[NSDate date]];
-    }
+    
+//    NSDateComponents *components;
+//    if (iOS8Later) {
+//         components = [calendar components:(NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear) fromDate:[NSDate date]];
+//    } else {
+//        components = [calendar components:[self calendarUnitFlags] fromDate:[NSDate date]];
+//    }
+    
+    NSDateComponents *components = [calendar components:(NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear) fromDate:[NSDate date]];
     
     NSDate *todayDate = [calendar dateFromComponents:components];
     
