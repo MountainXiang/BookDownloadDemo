@@ -24,11 +24,14 @@
         [[BookDownload sharedInstance] downloadBook:[NSString stringWithFormat:@"book_%ld", (long)i]];
     }
     
-    [DownloadNetworkManager getBookDownloadInfoWithBookGuid:@"5D46BB7762E54116846B04ED6C9F15C8" success:^(id  _Nullable data) {
+    NSURLSessionDataTask *task =[DownloadNetworkManager getBookDownloadInfoWithBookGuid:@"5D46BB7762E54116846B04ED6C9F15C8" success:^(id  _Nullable data) {
         
     } failure:^(NSError * _Nullable error) {
         
     }];
+    
+    //启动任务
+    [task resume];
     
 }
 

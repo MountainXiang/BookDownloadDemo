@@ -179,20 +179,8 @@
 		AA82DD571FC6BB170083C842 /* BookDownloadManager */ = {
 			isa = PBXGroup;
 			children = (
-				AA82DD5A1FC6C1910083C842 /* BookDownload.h */,
-				AA82DD5B1FC6C1910083C842 /* BookDownload.m */,
-				AA9745F41FD69D2900A08552 /* BookDownloadTask.h */,
-				AA9745F51FD69D2900A08552 /* BookDownloadTask.m */,
-				AA9745F71FD69D8A00A08552 /* DownloadBaseOperation.h */,
-				AA9745F81FD69D8A00A08552 /* DownloadBaseOperation.m */,
-				AA999C5B1FD78944003FD53A /* DownloadOperationQueue.h */,
-				AA999C5C1FD78944003FD53A /* DownloadOperationQueue.m */,
-				AA999C611FD7C6DD003FD53A /* DownloadNetworkManager.h */,
-				AA999C621FD7C6DD003FD53A /* DownloadNetworkManager.m */,
-				AA82F76B1FD912C800FC2ECC /* BookDownloadInfo.h */,
-				AA82F76C1FD912C800FC2ECC /* BookDownloadInfo.m */,
-				AA82F7911FD9231F00FC2ECC /* BookDataBaseManager.h */,
-				AA82F7921FD9231F00FC2ECC /* BookDataBaseManager.m */,
+				AA8D91751FDA5CF300DC562D /* Controller */,
+				AA8D91741FDA5CD000DC562D /* Model */,
 			);
 			path = BookDownloadManager;
 			sourceTree = "<group>";
@@ -248,6 +236,74 @@
 				AA8D91711FDA246100DC562D /* NSString+NSDate.m */,
 			);
 			path = NSString;
+			sourceTree = "<group>";
+		};
+		AA8D91741FDA5CD000DC562D /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				AA82F76B1FD912C800FC2ECC /* BookDownloadInfo.h */,
+				AA82F76C1FD912C800FC2ECC /* BookDownloadInfo.m */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		AA8D91751FDA5CF300DC562D /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				AA8D917C1FDA5E1000DC562D /* Manager */,
+				AA8D917B1FDA5DA800DC562D /* DataBase */,
+				AA8D917A1FDA5D9700DC562D /* Network */,
+				AA8D91791FDA5D8E00DC562D /* Task */,
+				AA8D91761FDA5D0700DC562D /* Operation */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		AA8D91761FDA5D0700DC562D /* Operation */ = {
+			isa = PBXGroup;
+			children = (
+				AA9745F71FD69D8A00A08552 /* DownloadBaseOperation.h */,
+				AA9745F81FD69D8A00A08552 /* DownloadBaseOperation.m */,
+				AA999C5B1FD78944003FD53A /* DownloadOperationQueue.h */,
+				AA999C5C1FD78944003FD53A /* DownloadOperationQueue.m */,
+			);
+			path = Operation;
+			sourceTree = "<group>";
+		};
+		AA8D91791FDA5D8E00DC562D /* Task */ = {
+			isa = PBXGroup;
+			children = (
+				AA9745F41FD69D2900A08552 /* BookDownloadTask.h */,
+				AA9745F51FD69D2900A08552 /* BookDownloadTask.m */,
+			);
+			path = Task;
+			sourceTree = "<group>";
+		};
+		AA8D917A1FDA5D9700DC562D /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				AA999C611FD7C6DD003FD53A /* DownloadNetworkManager.h */,
+				AA999C621FD7C6DD003FD53A /* DownloadNetworkManager.m */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
+		AA8D917B1FDA5DA800DC562D /* DataBase */ = {
+			isa = PBXGroup;
+			children = (
+				AA82F7911FD9231F00FC2ECC /* BookDataBaseManager.h */,
+				AA82F7921FD9231F00FC2ECC /* BookDataBaseManager.m */,
+			);
+			path = DataBase;
+			sourceTree = "<group>";
+		};
+		AA8D917C1FDA5E1000DC562D /* Manager */ = {
+			isa = PBXGroup;
+			children = (
+				AA82DD5A1FC6C1910083C842 /* BookDownload.h */,
+				AA82DD5B1FC6C1910083C842 /* BookDownload.m */,
+			);
+			path = Manager;
 			sourceTree = "<group>";
 		};
 		AA999C641FD7C810003FD53A /* NetworkManager */ = {
