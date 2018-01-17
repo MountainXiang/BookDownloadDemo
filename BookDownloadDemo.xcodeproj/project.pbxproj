@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AA638651200F25F100AFBA8C /* NSString+MD5.m in Sources */ = {isa = PBXBuildFile; fileRef = AA638650200F25F100AFBA8C /* NSString+MD5.m */; };
 		AA82DD3E1FC6AF5D0083C842 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = AA82DD3D1FC6AF5D0083C842 /* AppDelegate.m */; };
 		AA82DD411FC6AF5D0083C842 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA82DD401FC6AF5D0083C842 /* ViewController.m */; };
 		AA82DD441FC6AF5D0083C842 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AA82DD421FC6AF5D0083C842 /* Main.storyboard */; };
@@ -48,6 +49,8 @@
 		08167F71B88E30E02623849F /* libPods-BookDownloadDemo.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-BookDownloadDemo.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		34B80786F2DBD0A4837CFA05 /* Pods-BookDownloadDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BookDownloadDemo.release.xcconfig"; path = "Pods/Target Support Files/Pods-BookDownloadDemo/Pods-BookDownloadDemo.release.xcconfig"; sourceTree = "<group>"; };
 		771D31D4389F21CF6EA7CEAE /* Pods-BookDownloadDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BookDownloadDemo.debug.xcconfig"; path = "Pods/Target Support Files/Pods-BookDownloadDemo/Pods-BookDownloadDemo.debug.xcconfig"; sourceTree = "<group>"; };
+		AA63864F200F25F100AFBA8C /* NSString+MD5.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSString+MD5.h"; sourceTree = "<group>"; };
+		AA638650200F25F100AFBA8C /* NSString+MD5.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSString+MD5.m"; sourceTree = "<group>"; };
 		AA82DD391FC6AF5D0083C842 /* BookDownloadDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BookDownloadDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AA82DD3C1FC6AF5D0083C842 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		AA82DD3D1FC6AF5D0083C842 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -144,6 +147,15 @@
 				08167F71B88E30E02623849F /* libPods-BookDownloadDemo.a */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		AA63864B200F256100AFBA8C /* MD5 */ = {
+			isa = PBXGroup;
+			children = (
+				AA63864F200F25F100AFBA8C /* NSString+MD5.h */,
+				AA638650200F25F100AFBA8C /* NSString+MD5.m */,
+			);
+			path = MD5;
 			sourceTree = "<group>";
 		};
 		AA82DD301FC6AF5D0083C842 = {
@@ -357,6 +369,7 @@
 		AA999C751FD7CEE8003FD53A /* Tools */ = {
 			isa = PBXGroup;
 			children = (
+				AA63864B200F256100AFBA8C /* MD5 */,
 				AA8D917D1FDA66B300DC562D /* MTXDownload */,
 				AA82F77E1FD91E7D00FC2ECC /* FMDB */,
 				AA82F76E1FD91E2B00FC2ECC /* LKDBHelper */,
@@ -501,6 +514,7 @@
 				AA8D91861FDA7BDE00DC562D /* MTXDownloadManager.m in Sources */,
 				AA82F77B1FD91E4600FC2ECC /* LKDBHelper.m in Sources */,
 				AA82F78D1FD91E8600FC2ECC /* FMDatabase.m in Sources */,
+				AA638651200F25F100AFBA8C /* NSString+MD5.m in Sources */,
 				AA82F78C1FD91E8600FC2ECC /* FMResultSet.m in Sources */,
 				AA999C811FD7E7D3003FD53A /* NetworkManager.m in Sources */,
 				AA82DD411FC6AF5D0083C842 /* ViewController.m in Sources */,

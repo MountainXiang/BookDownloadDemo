@@ -20,6 +20,6 @@
  */
 + (NSURLSessionDataTask *)getBookDownloadInfoWithBookGuid:(NSString *)bookGuid success:(successBlock)success failure:(failureBlock)failure;
 
-+ (void)test;
+//+ (void)test;
 
 @end

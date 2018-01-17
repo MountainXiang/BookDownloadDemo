@@ -22,8 +22,7 @@ static NSString * const MXRBASE_API_URL = @"https://bs-api.mxrcorp.cn";
 + (NSURLSessionDataTask *)getBookDownloadInfoWithBookGuid:(NSString *)bookGuid success:(successBlock)success failure:(failureBlock)failure {
     NSString *URLString = ServiceURL_DOWNLOAD_FILELIST(bookGuid);
     return [[NetworkManager manager] requestWithType:RequestTypeGet URLString:URLString parameters:nil progress:^(NSProgress * _Nonnull progress) {
-        //打印下下载进度
-        DLog(@"====downloadProgress====%lf",1.0 * progress.completedUnitCount / progress.totalUnitCount);
+        DLog(@"====progress====%lf",1.0 * progress.completedUnitCount / progress.totalUnitCount);
     } success:^(NSURLSessionDataTask * _Nonnull task, id _Nullable data) {
         if (success) {//判空
             NetworkResponse *response = [[NetworkResponse alloc] initWithData:data];

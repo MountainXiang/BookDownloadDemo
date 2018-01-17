@@ -7,4 +7,5 @@ target 'BookDownloadDemo' do
 
   # Pods for BookDownloadDemo
   pod 'AFNetworking'
+  pod 'SSZipArchive'
 end

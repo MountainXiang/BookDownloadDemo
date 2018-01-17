@@ -24,8 +24,9 @@
 // THE SOFTWARE.
 
 #import "MTXFileManager.h"
+#import <SSZipArchive/ZipArchive.h>
 
-@interface MTXFileManager ()
+@interface MTXFileManager ()<SSZipArchiveDelegate>
 
 @property (nonatomic, strong)NSFileManager *fileManager;
 
@@ -66,12 +67,33 @@ static MTXFileManager *_manager = nil;
     return path;
 }
 
+#pragma mark - 解压文件到当前目录
+- (BOOL)upzipFileAtPath:(NSString *)filePath {
+    NSString *destination = [filePath stringByDeletingLastPathComponent];
+    return [self unzipFileAtPath:filePath toDestination:destination];
+}
+
+#pragma mark - 解压文件到指定目录
+- (BOOL)unzipFileAtPath:(NSString *)filePath toDestination:(NSString *)destination {
+    NSError *error = nil;
+    BOOL unzipSuccess = [SSZipArchive unzipFileAtPath:filePath toDestination:destination preserveAttributes:YES overwrite:YES password:nil error:&error delegate:self];
+    if (error) {
+        DLog(@"unzipFail:%@", error.localizedDescription);
+    }
+    return unzipSuccess;
+}
+
 #pragma mark - Getter
 - (NSFileManager *)fileManager {
     if (!_fileManager) {
         _fileManager = [NSFileManager defaultManager];
     }
     return _fileManager;
+}
+
+#pragma mark - SSZipArchiveDelegate
+- (void)zipArchiveDidUnzipArchiveAtPath:(NSString *)path zipInfo:(unz_global_info)zipInfo unzippedPath:(NSString *)unzippedPath {
+    DLog(@"zipPath:%@\nunzippedPath:%@", path, unzippedPath);
 }
 
 @end

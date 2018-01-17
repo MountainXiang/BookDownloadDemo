@@ -33,10 +33,44 @@ static NSString * const Temp_Directory_Name  = @"Temp";//临时文件目录
 
 @interface MTXFileManager : NSObject
 
+/**
+ 单例
+
+ @return 实例对象
+ */
 + (instancetype)defaultManager;
 
+/**
+ 当前目录是否存在
+
+ @param path 路径
+ @return 是否存在
+ */
 - (BOOL)fileExistsAtPath:(NSString *)path;
 
+/**
+ 创建目录
+
+ @param path 目录路径
+ @return 是否创建成功
+ */
 - (NSString *)createDirectoryAtPath:(NSString *)path;
+
+/**
+ 解压文件到当前目录
+
+ @param filePath 文件路径
+ @return 是否解压成功
+ */
+- (BOOL)upzipFileAtPath:(NSString *)filePath;
+
+/**
+ 解压文件到指定目录
+
+ @param filePath 文件路径
+ @param destination 指定目录
+ @return 是否解压成功
+ */
+- (BOOL)unzipFileAtPath:(NSString *)filePath toDestination:(NSString *)destination;
 
 @end

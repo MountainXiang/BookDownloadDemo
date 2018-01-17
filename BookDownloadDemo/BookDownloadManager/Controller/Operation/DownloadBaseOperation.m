@@ -9,6 +9,7 @@
 #import "DownloadBaseOperation.h"
 #import "DownloadOperationQueue.h"
 #import "DownloadNetworkManager.h"
+#import "MTXDownloadManager.h"
 
 @interface DownloadBaseOperation()
 
@@ -43,8 +44,7 @@
 //    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), queue, ^{
 //        NSLog(@"====finish====%@====%d====%lu====%@====%d", _operationID, self.asynchronous, (unsigned long)[DownloadOperationQueue sharedQueue].operations.count, [NSThread currentThread], [NSThread isMainThread]);
 //    });
-    
-    [DownloadNetworkManager test];
+    [[MTXDownloadManager sharedManager] startLoad];
 }
 
 - (void)dealloc {
@@ -53,7 +53,7 @@
 
 #pragma mark - Private Method
 - (void)startDownload {
-    
+    [[MTXDownloadManager sharedManager] startLoad];
 }
 
 /*
