@@ -21,6 +21,4 @@
 
 + (instancetype)sharedManager;
 
-- (void)startLoad;
-
 @end

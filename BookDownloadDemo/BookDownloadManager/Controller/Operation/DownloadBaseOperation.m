@@ -10,6 +10,8 @@
 #import "DownloadOperationQueue.h"
 #import "DownloadNetworkManager.h"
 #import "MTXDownloadManager.h"
+#import "MTXFileManager.h"
+#import "NSString+MD5.h"
 
 @interface DownloadBaseOperation()
 
@@ -30,9 +32,9 @@
     [super start];
 //    NSLog(@"====%s====%@====%d====%lu====%@====%d", __FUNCTION__,_operationID, self.asynchronous, (unsigned long)[DownloadOperationQueue sharedQueue].operations.count, [NSThread currentThread], [NSThread isMainThread]);
     
-    @autoreleasepool {
-        [self startDownload];
-    }
+//    @autoreleasepool {
+//        [self startDownload];
+//    }
 }
 
 // 当把自定义的操作添加到操作队列中，或者直接调用操作的start方法后，都会自动来执行main 方法中的内容
@@ -44,7 +46,10 @@
 //    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), queue, ^{
 //        NSLog(@"====finish====%@====%d====%lu====%@====%d", _operationID, self.asynchronous, (unsigned long)[DownloadOperationQueue sharedQueue].operations.count, [NSThread currentThread], [NSThread isMainThread]);
 //    });
-    [[MTXDownloadManager sharedManager] startLoad];
+    
+    @autoreleasepool {
+        [self startDownload];
+    }
 }
 
 - (void)dealloc {
@@ -53,8 +58,126 @@
 
 #pragma mark - Private Method
 - (void)startDownload {
-    [[MTXDownloadManager sharedManager] startLoad];
+    //http://books.mxrcorp.cn/5D46BB7762E54116846B04ED6C9F15C8/UserPicture/bookIcon.png
+    //http://books.mxrcorp.cn/5D46BB7762E54116846B04ED6C9F15C8/P1.zip 空文件夹
+    //http://books.mxrcorp.cn/69804558FF954B6691AA22714D263FFF/P01.zip
+    NSString *downloadURL = @"http://books.mxrcorp.cn/69804558FF954B6691AA22714D263FFF/P01.zip";
+    NSTimeInterval timeoutInterval = 30;
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:downloadURL] cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:timeoutInterval];
+    request.HTTPMethod = @"GET";
+    
+    NSString *userAgent = @"4dBookCity/5.8.1 (iPhone; iOS 11.1.2; Scale/3.00)";
+    
+    if (![userAgent canBeConvertedToEncoding:NSASCIIStringEncoding]) {
+        NSMutableString *mutableUserAgent = [userAgent mutableCopy];
+        if (CFStringTransform((__bridge CFMutableStringRef)(mutableUserAgent), NULL, (__bridge CFStringRef)@"Any-Latin; Latin-ASCII; [:^ASCII:] Remove", false)) {
+            userAgent = mutableUserAgent;
+        }
+    }
+    
+    [request setValue:userAgent forHTTPHeaderField:@"User-Agent"];
+    
+    //    unsigned long long fileSize = 0;
+    //    NSString *headerRange = [NSString stringWithFormat:@"bytes=%llu-", fileSize];
+    //    [request setValue:headerRange forHTTPHeaderField:@"Range"];
+    
+    NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
+    AFURLSessionManager *manager = [[AFURLSessionManager alloc] initWithSessionConfiguration:configuration];
+    
+    NSURLSessionDownloadTask *downloadTask = [manager downloadTaskWithRequest:request progress:^(NSProgress * _Nonnull downloadProgress) {
+        //        DLog(@"downloadProgress====%lld",downloadProgress.completedUnitCount/ downloadProgress.totalUnitCount);
+        DLog(@"====downloadProgress====%lf",downloadProgress.fractionCompleted);
+//        downloadProgressBlock(downloadProgress);
+    } destination:^NSURL * _Nonnull(NSURL * _Nonnull targetPath, NSURLResponse * _Nonnull response) {
+        /*file:///Users/mxr/Library/Developer/CoreSimulator/Devices/F0A41D22-52BE-4F30-A200-F9DD0FA44D3F/data/Containers/Data/Application/87BF2004-076B-4E5C-A293-8D17B2184B35/Documents/P01.zip*/
+        NSURL *documentsDirectoryURL = [[NSFileManager defaultManager] URLForDirectory:NSDocumentDirectory inDomain:NSUserDomainMask appropriateForURL:nil create:NO error:nil];
+        NSURL *targetURL = [documentsDirectoryURL URLByAppendingPathComponent:[response suggestedFilename]];
+        /*AFNetworking下载临时文件路径：
+        /Users/mxr/Library/Developer/CoreSimulator/Devices/F0A41D22-52BE-4F30-A200-F9DD0FA44D3F/data/Containers/Data/Application/E64F5963-D51A-45CC-B940-A331D4D33BC3/tmp/CFNetworkDownload_FoJ2w2.tmp
+         */
+//        NSString *docDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject];
+//        NSString *targetURLStr = [docDir stringByAppendingPathComponent:[response suggestedFilename]];
+//        NSURL *targetURL = [NSURL URLWithString:targetURLStr];
+//        [[MTXFileManager defaultManager] createDirectoryAtPath:targetURLStr];
+        
+        
+        return targetURL;
+    } completionHandler:^(NSURLResponse * _Nonnull response, NSURL * _Nullable filePath, NSError * _Nullable error) {
+        if (error) {
+            DLog(@"Download Error:%@", error.localizedDescription);
+            /*Download Error:The resource could not be loaded because the App Transport Security policy requires the use of a secure connection.*/
+        } else {
+            DLog(@"DownLoad Success====filePath: %@", filePath);
+            NSString *fileRealPath;
+            //Method 1:
+            /*
+             filePath:
+             真机:
+             file:///var/mobile/Containers/Data/Application/D10579DD-84E4-4D27-883D-D8D104ABFEEE/Documents/P01.zip
+             模拟器：
+             file:///Users/mxr/Library/Developer/CoreSimulator/Devices/F0A41D22-52BE-4F30-A200-F9DD0FA44D3F/data/Containers/Data/Application/038D5E07-132B-48C5-BE56-2A3DF6EF0CCC/Documents/P01.zip
+             */
+            NSString *prefix = @"file://";
+            if ([filePath.absoluteString hasPrefix:prefix]) {
+                fileRealPath = [filePath.absoluteString substringFromIndex:prefix.length];
+            } else {
+                fileRealPath = filePath.absoluteString;
+            }
+            
+            //Method 2:
+            /*
+             真机:
+             /var/mobile/Containers/Data/Application/8AD4DAC7-BFE6-4E88-9CA3-DF54445DFC7E/Documents/P01.zip
+             模拟器：
+             /Users/mxr/Library/Developer/CoreSimulator/Devices/F0A41D22-52BE-4F30-A200-F9DD0FA44D3F/data/Containers/Data/Application/6267B3A2-C31E-4CDA-AC29-B882DBF784C2/Documents/P01.zip
+             */
+//            NSString *documentDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject];
+//            fileRealPath = [documentDir stringByAppendingPathComponent:[response suggestedFilename]];
+            
+            DLog(@"fileRealPath:%@", fileRealPath);
+            
+            //MD5校验 下载文件MD5(标准为全小写)与服务器返回的MD5转化为小写(lowercaseString)后对比即可
+            NSString *fileMD5 = [fileRealPath fileMD5];
+            DLog(@"fileMD5:%@", fileMD5);//fileMD5:aeadb39c922df5cec6d358614fc53f4f
+            
+            [[MTXFileManager defaultManager] upzipFileAtPath:fileRealPath];
+        }
+    }];
+    [downloadTask resume];
 }
+
+/*
+ AFNetworking -> AFURLSessionManager:
+ - (NSURLSessionDownloadTask *)downloadTaskWithRequest:(NSURLRequest *)request
+ progress:(void (^)(NSProgress *downloadProgress)) downloadProgressBlock
+ destination:(NSURL * (^)(NSURL *targetPath, NSURLResponse *response))destination
+ completionHandler:(void (^)(NSURLResponse *response, NSURL *filePath, NSError *error))completionHandler
+ {
+ __block NSURLSessionDownloadTask *downloadTask = nil;
+ url_session_manager_create_task_safely(^{
+ downloadTask = [self.session downloadTaskWithRequest:request];
+ });
+ 
+ [self addDelegateForDownloadTask:downloadTask progress:downloadProgressBlock destination:destination completionHandler:completionHandler];
+ 
+ return downloadTask;
+ }
+ 
+ - (NSURLSessionDownloadTask *)downloadTaskWithResumeData:(NSData *)resumeData
+ progress:(void (^)(NSProgress *downloadProgress)) downloadProgressBlock
+ destination:(NSURL * (^)(NSURL *targetPath, NSURLResponse *response))destination
+ completionHandler:(void (^)(NSURLResponse *response, NSURL *filePath, NSError *error))completionHandler
+ {
+ __block NSURLSessionDownloadTask *downloadTask = nil;
+ url_session_manager_create_task_safely(^{
+ downloadTask = [self.session downloadTaskWithResumeData:resumeData];
+ });
+ 
+ [self addDelegateForDownloadTask:downloadTask progress:downloadProgressBlock destination:destination completionHandler:completionHandler];
+ 
+ return downloadTask;
+ }
+ */
 
 /*
  并发数

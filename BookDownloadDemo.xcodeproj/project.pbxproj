@@ -369,11 +369,11 @@
 		AA999C751FD7CEE8003FD53A /* Tools */ = {
 			isa = PBXGroup;
 			children = (
-				AA63864B200F256100AFBA8C /* MD5 */,
 				AA8D917D1FDA66B300DC562D /* MTXDownload */,
 				AA82F77E1FD91E7D00FC2ECC /* FMDB */,
 				AA82F76E1FD91E2B00FC2ECC /* LKDBHelper */,
 				AA999C681FD7CAD7003FD53A /* Base64 */,
+				AA63864B200F256100AFBA8C /* MD5 */,
 			);
 			path = Tools;
 			sourceTree = "<group>";

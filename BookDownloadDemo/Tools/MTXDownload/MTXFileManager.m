@@ -28,8 +28,6 @@
 
 @interface MTXFileManager ()<SSZipArchiveDelegate>
 
-@property (nonatomic, strong)NSFileManager *fileManager;
-
 @end
 
 @implementation MTXFileManager
@@ -49,21 +47,57 @@ static MTXFileManager *_manager = nil;
 
 #pragma mark - Public Method
 - (BOOL)fileExistsAtPath:(NSString *)path {
-    return [self.fileManager fileExistsAtPath:path];
+    return [[NSFileManager defaultManager] fileExistsAtPath:path];
 }
 
 - (NSString *)createDirectoryAtPath:(NSString *)path {
-    if (![self fileExistsAtPath:path]) {
-        // 参数1：创建的文件夹的路径
-        // 参数2：是否创建媒介的布尔值，一般为YES
-        // 参数3: 属性，没有就置为nil (目录的访问权限和修改时间)
-        // 参数4: 错误信息
-        NSError *error;
-        [self.fileManager createDirectoryAtPath:path withIntermediateDirectories:YES attributes:nil error:&error];
+    return [self createDirectoryAtPath:path preserveAttributes:YES];
+}
+
+- (NSString *)createDirectoryAtPath:(NSString *)path preserveAttributes:(BOOL)preserveAttributes {
+    BOOL isDirectory = NO;
+    //test
+//    NSURL *documentsDirectoryURL = [[NSFileManager defaultManager] URLForDirectory:NSDocumentDirectory inDomain:NSUserDomainMask appropriateForURL:nil create:NO error:nil];
+//    path = documentsDirectoryURL.absoluteString;
+    BOOL isExists = [[NSFileManager defaultManager] fileExistsAtPath:path isDirectory:&isDirectory];
+    
+    NSDictionary *directoryAttr;
+    if (preserveAttributes) {//默认为YES
+        NSDate *modDate = [NSDate date];
+        directoryAttr = @{NSFileCreationDate: modDate, NSFileModificationDate: modDate};
+    }
+    
+    if (isExists && isDirectory) {//目录已存在
+        DLog(@"目录已存在:%@", path);
+        return path;
+    } else if (isExists && !isDirectory) {//文件已存在
+        DLog(@"文件已存在:%@", path);
+        return path;
+    }
+    
+    // 参数1：创建的文件夹的路径
+    // 参数2：是否创建媒介的布尔值，一般为YES（是否创建最终目录的不存在的父目录;是否连同上一级路径一起创建，NO 并且上一级文件路径不存在时会创建失败）
+    // 参数3: 属性，没有就置为nil (目录的访问权限和修改时间)
+    // 参数4: 错误信息
+    NSError *err = nil;
+    [[NSFileManager defaultManager] createDirectoryAtPath:path withIntermediateDirectories:YES attributes:directoryAttr error:&err];
+    if (err) {
+        DLog(@"createDirectoryAtPath(%@)Error:%@", path, err.localizedDescription);
+        //You don’t have permission to save the file “Documents” in the folder “7F455894-C160-48D4-B849-1353704BF75D”.
+    } else {
+        DLog(@"createDirectoryAtPath(%@)Success", path);
+        //获取文件属性
+        NSError *error = nil;
+        NSDictionary *fileAttributes =[[NSFileManager defaultManager] attributesOfItemAtPath:path error:&error];
+        //获取文件的创建日期
+        NSDate *modificationDate = (NSDate*)[fileAttributes objectForKey: NSFileModificationDate];
+        //获取文件的字节大小
+        NSNumber *fileSize = (NSNumber*)[fileAttributes objectForKey: NSFileSize];
         if (error) {
-            NSLog(@"Create Directory Failure====Error:%@", error.localizedDescription);
+            DLog(@"fileAttributesError:%@", error.localizedDescription);
         }
     }
+    
     return path;
 }
 
@@ -75,25 +109,37 @@ static MTXFileManager *_manager = nil;
 
 #pragma mark - 解压文件到指定目录
 - (BOOL)unzipFileAtPath:(NSString *)filePath toDestination:(NSString *)destination {
+    return [self unzipFileAtPath:filePath toDestination:destination deleteAfterUnzip:YES];
+}
+
+#pragma mark - 解压文件到指定目录,解压成功后删除压缩文件
+- (BOOL)unzipFileAtPath:(NSString *)filePath toDestination:(NSString *)destination deleteAfterUnzip:(BOOL)deleteAfterUnzip {
+    if (![[MTXFileManager defaultManager] fileExistsAtPath:filePath]) {
+        DLog(@"unzipFail:zipFileNotExistsAtPath:%@", filePath);
+        [[MTXFileManager defaultManager] createDirectoryAtPath:filePath];
+    }
+    
     NSError *error = nil;
     BOOL unzipSuccess = [SSZipArchive unzipFileAtPath:filePath toDestination:destination preserveAttributes:YES overwrite:YES password:nil error:&error delegate:self];
     if (error) {
         DLog(@"unzipFail:%@", error.localizedDescription);
     }
+    if (unzipSuccess && deleteAfterUnzip) {
+        NSError *error = nil;
+        [[NSFileManager defaultManager] removeItemAtPath:filePath error:&error];
+        if (error) {
+            DLog(@"removeItemAtPathFailed:%@\nError:%@", filePath, error.localizedDescription);
+        }
+    }
     return unzipSuccess;
 }
 
-#pragma mark - Getter
-- (NSFileManager *)fileManager {
-    if (!_fileManager) {
-        _fileManager = [NSFileManager defaultManager];
-    }
-    return _fileManager;
+#pragma mark - SSZipArchiveDelegate
+-(void)zipArchiveWillUnzipArchiveAtPath:(NSString *)path zipInfo:(unz_global_info)zipInfo {
 }
 
-#pragma mark - SSZipArchiveDelegate
 - (void)zipArchiveDidUnzipArchiveAtPath:(NSString *)path zipInfo:(unz_global_info)zipInfo unzippedPath:(NSString *)unzippedPath {
-    DLog(@"zipPath:%@\nunzippedPath:%@", path, unzippedPath);
+    DLog(@"UnzipSuccess====zipPath:%@\nunzippedPath:%@", path, unzippedPath);
 }
 
 @end

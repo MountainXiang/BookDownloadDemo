@@ -59,7 +59,7 @@ static NSString * const Temp_Directory_Name  = @"Temp";//临时文件目录
 /**
  解压文件到当前目录
 
- @param filePath 文件路径
+ @param filePath 压缩文件路径
  @return 是否解压成功
  */
 - (BOOL)upzipFileAtPath:(NSString *)filePath;
@@ -67,10 +67,20 @@ static NSString * const Temp_Directory_Name  = @"Temp";//临时文件目录
 /**
  解压文件到指定目录
 
- @param filePath 文件路径
- @param destination 指定目录
+ @param filePath 压缩文件路径
+ @param destination 解压指定目录
  @return 是否解压成功
  */
 - (BOOL)unzipFileAtPath:(NSString *)filePath toDestination:(NSString *)destination;
+
+/**
+ 解压文件到指定目录,解压成功后删除压缩文件
+
+ @param filePath 压缩文件路径
+ @param destination 解压指定目录
+ @param deleteAfterUnzip 解压成功后是否删除压缩文件(默认为YES)
+ @return 是否解压成功
+ */
+- (BOOL)unzipFileAtPath:(NSString *)filePath toDestination:(NSString *)destination deleteAfterUnzip:(BOOL)deleteAfterUnzip;
 
 @end
