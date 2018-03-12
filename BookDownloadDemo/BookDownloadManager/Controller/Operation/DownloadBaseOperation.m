@@ -85,9 +85,7 @@
     AFURLSessionManager *manager = [[AFURLSessionManager alloc] initWithSessionConfiguration:configuration];
     
     NSURLSessionDownloadTask *downloadTask = [manager downloadTaskWithRequest:request progress:^(NSProgress * _Nonnull downloadProgress) {
-        //        DLog(@"downloadProgress====%lld",downloadProgress.completedUnitCount/ downloadProgress.totalUnitCount);
-        DLog(@"====downloadProgress====%lf",downloadProgress.fractionCompleted);
-//        downloadProgressBlock(downloadProgress);
+//        DLog(@"====downloadProgress====%lf",downloadProgress.fractionCompleted);
     } destination:^NSURL * _Nonnull(NSURL * _Nonnull targetPath, NSURLResponse * _Nonnull response) {
         /*file:///Users/mxr/Library/Developer/CoreSimulator/Devices/F0A41D22-52BE-4F30-A200-F9DD0FA44D3F/data/Containers/Data/Application/87BF2004-076B-4E5C-A293-8D17B2184B35/Documents/P01.zip*/
         NSURL *documentsDirectoryURL = [[NSFileManager defaultManager] URLForDirectory:NSDocumentDirectory inDomain:NSUserDomainMask appropriateForURL:nil create:NO error:nil];

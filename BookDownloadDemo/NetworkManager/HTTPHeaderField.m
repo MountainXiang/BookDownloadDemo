@@ -8,7 +8,9 @@
 
 #import "HTTPHeaderField.h"
 #import "MXRBase64.h"
-#define MXR_SOFT_VERSION [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"]
+
+//#define MXR_SOFT_VERSION [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"]
+#define MXR_SOFT_VERSION @"5.8.7"
 
 /*
  // 开发中常用static修饰全局变量,只改变作用域
